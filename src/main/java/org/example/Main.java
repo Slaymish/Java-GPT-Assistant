@@ -7,6 +7,7 @@ import io.reactivex.Flowable;
 import io.reactivex.Single;
 
 import javax.sound.sampled.LineUnavailableException;
+import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
@@ -22,66 +23,80 @@ public class Main {
 
         OpenAiService service = new OpenAiService(apiKey);
 
-        // Add system messages
-        messages.add(new ChatMessage("system", "You are a helpful assistant, specialising in short responses."));
+        resetMessages("You are a helpful assistant, specialising in short responses. Act as a japaneese anime girl.");
 
-        // Use whisper api
-        Transcribe.transcribe();
+        // Ask for text or voice
+        System.out.println("Would you like to use text or voice? (t/v)");
+        Scanner scanner = new Scanner(System.in);
+        String input = scanner.nextLine();
+        String prompt = "";
 
+        if(input.equals("v")){
+            // Get user voice
+            File userAudio = Beads.main();
 
-        while(running){
-            String userInput = getUser();
+            // Use whisper api
+            prompt = Transcribe.transcribe(userAudio);
+        }
+        else if(input.equals("t")){
+            // Get user text
+            prompt = getUser();
+        }
+        runBot(service, prompt);
+    }
+
+    private static void runBot(OpenAiService service, String prompt) throws LineUnavailableException, IOException {
+            if(prompt == null){prompt = getUser();}
             final String[] res = {""};
-            if(userInput.equals("q")){
+            if(prompt.equals("q")){
                 running = false;
+                System.out.println("exiting: " + messages.size() + " messages");
+                messages.forEach(System.out::println);
+                System.exit(0);
             }
             else{
-                ChatCompletionRequest request = createChatCompletionRequest(messages, userInput, "gpt-4");
-                messages.add(new ChatMessage("user", userInput));
+                ChatCompletionRequest request = createChatCompletionRequest(messages, prompt, "gpt-3.5-turbo");
+                messages.add(new ChatMessage("user", prompt));
 
                 try {
                     // Create a chat completion stream
-                    System.out.println(request.getStop());
                     Flowable<ChatCompletionChunk> stream = service.streamChatCompletion(request);
                     // Subscribe to the stream
                     stream.subscribe(chunk -> {
                         // Get the latest message
                         ChatCompletionChoice result = chunk.getChoices().get(0);
                         String botResponse = String.valueOf(result.getMessage().getContent());
-                        messages.add(new ChatMessage("assistant", botResponse));
                         if(botResponse.equals("null") && !res[0].equals("")){
-                            //tts
                             try {
                                 TextToSpeech.outputTextToSpeak(res[0]);
+                                messages.add(new ChatMessage("assistant", res[0]));
+                                System.out.println();
+                                // Rerun the bot
+                                runBot(service, null);
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
                         }
                         else if(!botResponse.equals("null")){
-                            res[0] = res[0] + " " + botResponse;
+                            res[0] = res[0] + botResponse;
                             System.out.print(botResponse);
                         }
-
                     });
-
-
-
-
-
-
-
-
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
         }
 
-        System.out.println("exiting: " + messages.size() + " messages");
 
-
+    /**
+     * Reset the bot to the system message
+      * @param system
+     */
+    private static void resetMessages(String system) {
+        messages.clear();
+        messages.add(new ChatMessage("system", system));
     }
-
     private static void executeResult(Single<List<ChatCompletionChunk>> toList) {
         try {
             List<ChatCompletionChunk> result = toList.blockingGet();

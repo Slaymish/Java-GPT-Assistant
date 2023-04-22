@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
 class TextToSpeech {
@@ -29,7 +30,16 @@ class TextToSpeech {
         connection.setDoOutput(true);
 
         String text = args;
-        String body = String.format("{\"text\": \"%s\", \"voice_settings\": {\"stability\": 0, \"similarity_boost\": 0}}", text);
+
+        // santize the text
+        String encodedText = text.replaceAll("\n", ". ")
+                .replaceAll("\r", " ")
+                .replaceAll("\t", " ")
+                .replaceAll("\\\"","`");
+
+
+        // Build the body
+        String body = String.format("{\"text\": \"%s\", \"voice_settings\": {\"stability\": 0, \"similarity_boost\": 0}}", encodedText);
 
         OutputStream os = connection.getOutputStream();
         byte[] input = body.getBytes(StandardCharsets.UTF_8);
@@ -49,6 +59,13 @@ class TextToSpeech {
             }
         } else {
             System.out.println("Error: " + responseCode);
+
+            // Display issue
+            System.out.println("Error: " + connection.getResponseMessage());
+
+            // Speak the error
+            System.out.println("text: " + text);
+            System.out.println("encodedText: " + encodedText);
         }
     }
 }
