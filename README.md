@@ -5,3 +5,5 @@ A little gpt assitant java test, using gpt3/4, whisper, and elevenlabs api's
 - [X] TTS with elevenlabs
 - [ ] Audio input with whisper api
 - [ ] Command file for AI to execute
+
+*run src/main/java/Assistant/Main.java for CLI chats*
