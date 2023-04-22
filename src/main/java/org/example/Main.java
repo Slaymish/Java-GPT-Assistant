@@ -45,6 +45,13 @@ public class Main {
         runBot(service, prompt);
     }
 
+    /**
+     * Run the bot loop
+     * @param service
+     * @param prompt
+     * @throws LineUnavailableException
+     * @throws IOException
+     */
     private static void runBot(OpenAiService service, String prompt) throws LineUnavailableException, IOException {
             if(prompt == null){prompt = getUser();}
             final String[] res = {""};

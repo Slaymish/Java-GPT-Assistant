@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="44098371-9094-4f21-98df-c2d9ac54a1f1" name="Changes" comment="Delete .env" />
+    <list default="true" id="44098371-9094-4f21-98df-c2d9ac54a1f1" name="Changes" comment="Delete .env">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Main.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -85,7 +88,7 @@
       <workItem from="1682083286959" duration="1811000" />
       <workItem from="1682085115600" duration="9636000" />
       <workItem from="1682132705710" duration="5206000" />
-      <workItem from="1682139111383" duration="267000" />
+      <workItem from="1682139111383" duration="306000" />
     </task>
     <task id="LOCAL-00001" summary="AI chat bot - WIP">
       <created>1682089018236</created>
@@ -122,7 +125,14 @@
       <option name="project" value="LOCAL" />
       <updated>1682139349591</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Delete .env">
+      <created>1682139387526</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1682139387526</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
