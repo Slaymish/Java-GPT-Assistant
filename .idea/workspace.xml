@@ -4,20 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="44098371-9094-4f21-98df-c2d9ac54a1f1" name="Changes" comment="AI chat bot - WIP">
-      <change afterPath="$PROJECT_DIR$/bleh.wav" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/Beads.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/output.mp3" beforeDir="false" afterPath="$PROJECT_DIR$/output.mp3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/TextToSpeech.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/TextToSpeech.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Transcribe.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Transcribe.java" afterDir="false" />
-    </list>
+    <list default="true" id="44098371-9094-4f21-98df-c2d9ac54a1f1" name="Changes" comment="Delete .env" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ChangesViewManager">
+    <option name="groupingKeys">
+      <option value="module" />
+      <option value="directory" />
+    </option>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -88,6 +85,7 @@
       <workItem from="1682083286959" duration="1811000" />
       <workItem from="1682085115600" duration="9636000" />
       <workItem from="1682132705710" duration="5206000" />
+      <workItem from="1682139111383" duration="267000" />
     </task>
     <task id="LOCAL-00001" summary="AI chat bot - WIP">
       <created>1682089018236</created>
@@ -110,7 +108,21 @@
       <option name="project" value="LOCAL" />
       <updated>1682131587073</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="AI chat bot - WIP">
+      <created>1682139131515</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1682139131515</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Delete .env">
+      <created>1682139349591</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1682139349591</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -130,6 +142,7 @@
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="AI chat bot - WIP" />
-    <option name="LAST_COMMIT_MESSAGE" value="AI chat bot - WIP" />
+    <MESSAGE value="Delete .env" />
+    <option name="LAST_COMMIT_MESSAGE" value="Delete .env" />
   </component>
 </project>
