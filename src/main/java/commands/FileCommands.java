@@ -18,4 +18,17 @@ public class FileCommands {
             return false;
         }
     }
+
+    public static boolean readDirectory(String dir) {
+        // read the directory
+        String command = "ls " + dir;
+        try {
+            Process p = Runtime.getRuntime().exec(command);
+            p.waitFor();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

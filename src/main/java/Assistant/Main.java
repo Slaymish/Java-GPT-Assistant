@@ -13,7 +13,9 @@ import io.reactivex.Single;
 import javax.sound.sampled.LineUnavailableException;
 import java.io.File;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.*;
+import java.util.regex.Pattern;
 
 public class Main {
     private static final ArrayList<ChatMessage> messages = new ArrayList<>();
@@ -27,6 +29,18 @@ public class Main {
     private static String XI_API_KEY = "";
     private static String voiceID = "";
     private static String workingDirectory = "";
+    private static boolean ttsEnabled = false;
+
+
+
+    /* Command patterns */
+    private static final Pattern WRITE_TO_FILE = Pattern.compile("write_to_file");
+    private static final Pattern DOWNLOAD_FILE = Pattern.compile("download_file");
+    private static final Pattern SELF_PROMPT = Pattern.compile("self_prompt");
+    private static final Pattern READ_FILE = Pattern.compile("read_file");
+    private static final Pattern READ_DIRECTORY = Pattern.compile("read_directory");
+    private static final Pattern GOOGLE = Pattern.compile("google");
+
 
     public static void init(){
         Dotenv dotenv = Dotenv.load();
@@ -37,12 +51,15 @@ public class Main {
         XI_API_KEY = dotenv.get("ELEVENLABS_API_KEY");
         voiceID = dotenv.get("ELEVENLABS_VOICE_ID");
         workingDirectory = dotenv.get("WORKING_DIRECTORY");
+        ttsEnabled = Boolean.parseBoolean(dotenv.get("TTS_ENABLED"));
+
 
         if(apiKey == null || model == null || XI_API_KEY == null || voiceID == null || workingDirectory == null){
             throw new RuntimeException("Please set your environment variables");
         }
 
         System.out.println("Environment variables loaded");
+
     }
 
     public static void main(String[] args) throws IOException, LineUnavailableException {
@@ -50,7 +67,10 @@ public class Main {
 
         OpenAiService service = new OpenAiService(apiKey);
 
-        resetMessages("You are a helpful assistant, specialising in short responses.");
+        // Load prompt from resources/prompt.txt
+        String systemPrompt = new Scanner(new File("src/main/resources/prompt.txt")).useDelimiter("\\Z").next();
+
+        resetMessages(systemPrompt);
 
         // Ask for text or voice
         System.out.println("Would you like to use text or voice? (t/v)");
@@ -79,7 +99,7 @@ public class Main {
      * @throws LineUnavailableException
      * @throws IOException
      */
-    private static void runBot(OpenAiService service, String prompt, String model) throws LineUnavailableException, IOException {
+    private static void runBot(OpenAiService service, String prompt, String model) throws IOException {
             if(prompt == null){prompt = getUser();}
             final String[] res = {""};
             if(prompt.equals("q")){
@@ -100,18 +120,21 @@ public class Main {
                         // Get the latest message
                         ChatCompletionChoice result = chunk.getChoices().get(0);
                         String botResponse = String.valueOf(result.getMessage().getContent());
-                        if(botResponse.equals("null") && !res[0].equals("")){
+                        if(botResponse.equals("null") && !res[0].equals("")){ // finished
                             try {
-                                TextToSpeech.outputTextToSpeak(res[0]);
+                                TextToSpeech.outputTextToSpeak(res[0]); // TTS
                                 messages.add(new ChatMessage("assistant", res[0]));
                                 System.out.println();
-                                // Rerun the bot
-                                runBot(service, null,model);
+
+                                // Check for commands
+                                if(!checkForCommands(res[0],service)){
+                                    runBot(service, null,model);
+                                }
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
                         }
-                        else if(!botResponse.equals("null")){
+                        else if(!botResponse.equals("null")){ // chunks still coming in
                             res[0] = res[0] + botResponse;
                             System.out.print(botResponse);
                         }
@@ -121,6 +144,56 @@ public class Main {
                 }
             }
         }
+
+    private static boolean checkForCommands(String re, OpenAiService service) throws LineUnavailableException, IOException, ParseException {
+        if(WRITE_TO_FILE.matcher(re).find()){
+            System.out.println("write to file");
+        }
+        if(DOWNLOAD_FILE.matcher(re).find()){
+            System.out.println("download file");
+        }
+        if(READ_FILE.matcher(re).find()){
+            System.out.println("read file");
+        }
+        if(READ_DIRECTORY.matcher(re).find()){
+            System.out.println("read directory");
+            messages.add(new ChatMessage("assistant", "Here are the files in your directory: " + Arrays.toString(new File(workingDirectory).list())));
+        }
+        else if(GOOGLE.matcher(re).find()){
+            System.out.println("google");
+        }
+        if(SELF_PROMPT.matcher(re).find()){
+            System.out.println("self prompt");
+            Scanner scanner = new Scanner(re);
+            scanner.useDelimiter("");
+            while(scanner.hasNext()){
+                String next = scanner.next();
+                if(next.equals(SELF_PROMPT)){
+                    requires(scanner, "{");
+                    String prompt = "";
+                    while(!scanner.hasNext("}")){
+                        prompt += scanner.next();
+                    }
+                    System.out.println("Self prompt: " + prompt);
+                    requires(scanner, "}");
+                    runBot(service, prompt, model);
+                    return true;
+                }
+
+            }
+        }
+        return false;
+    }
+
+    public static boolean requires(Scanner sc, String s) throws ParseException {
+        if (sc.hasNext(s)) {
+            sc.next(s);
+            return true;
+        }
+        throw new ParseException("Expected " + s, 0);
+    }
+
+
 
 
     /**
