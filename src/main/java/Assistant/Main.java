@@ -44,7 +44,7 @@ public class Main {
     private static final Pattern GOOGLE_SEARCH = Pattern.compile("google_search");
 
     private  static final Pattern SEARCH_WEBSITE = Pattern.compile("search_website");
-    private static final Pattern CURLY_BRACKETS = Pattern.compile("\\{\\\"(.*?)\\\"}");
+    private static final Pattern CURLY_BRACKETS = Pattern.compile("\\{(.+?)\\}");
 
 
     public static void init(){
@@ -169,21 +169,7 @@ public class Main {
             messages.add(new ChatMessage("assistant", "Here are the files in your directory: " + Arrays.toString(new File(workingDirectory).list())));
         }
         if(GOOGLE_SEARCH.matcher(re).find()){
-            // Get the search query
-            // ------------------  WIP  ------------------------
-            String query = re.substring(re.indexOf("google_search") + ("google_search").length());
-
-            System.out.println("searching for: " + query);
-
-            Scanner scanner = new Scanner(query);
-            scanner.useDelimiter(CURLY_BRACKETS);
-            String searchQuery = scanner.next();
-
-            System.out.println("searching for: " + searchQuery);
-
-            String searchResults = GoogleSearch.search(searchQuery);
-
-            messages.add(new ChatMessage("assistant", "Here are the results for " + searchQuery + ": " + searchResults));
+            parseGoogle(re);
         }
         if(SEARCH_WEBSITE.matcher(re).find()){
             System.out.println("search website");
@@ -193,6 +179,17 @@ public class Main {
             standAlonePrompt(service, re, model);
         }
         return false;
+    }
+
+    private static void parseGoogle(String sc) {
+        // Get the search query
+        String query = sc.substring(sc.indexOf("google_search") + ("google_search").length() + 1);
+        query = query.substring(0, query.indexOf("self_prompt") - 2);
+        System.out.println("searching for: " + query);
+
+        String searchResults = GoogleSearch.search(query);
+
+        messages.add(new ChatMessage("assistant", "Here are the results for " + query + ": " + searchResults));
     }
 
     private static void standAlonePrompt(OpenAiService service, String prompt, String model) {
@@ -218,7 +215,7 @@ public class Main {
         }catch(Exception e){
             System.out.println("Error: " + e.getMessage());
         }
-        throw new Exception("Parse Error, expected " + s);
+        throw new Exception("Parse Error, expected " + s + " but found " + sc.next());
     }
 
 

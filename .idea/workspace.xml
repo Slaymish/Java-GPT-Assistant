@@ -4,11 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="44098371-9094-4f21-98df-c2d9ac54a1f1" name="Changes" comment="commit">
-      <change afterPath="$PROJECT_DIR$/src/main/java/commands/GoogleSearch.java" afterDir="false" />
+    <list default="true" id="44098371-9094-4f21-98df-c2d9ac54a1f1" name="Changes" comment="Added support for self_prompting and read_directory commands&#10;&#10;Started working on parser for command querys">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/output.mp3" beforeDir="false" afterPath="$PROJECT_DIR$/output.mp3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Assistant/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Assistant/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/commands/GoogleSearch.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/commands/GoogleSearch.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/prompt.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/prompt.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -99,7 +99,8 @@
       <workItem from="1682139111383" duration="527000" />
       <workItem from="1682139701569" duration="8023000" />
       <workItem from="1682153362909" duration="52000" />
-      <workItem from="1682153459135" duration="5663000" />
+      <workItem from="1682153459135" duration="5775000" />
+      <workItem from="1682170560393" duration="6388000" />
     </task>
     <task id="LOCAL-00001" summary="AI chat bot - WIP">
       <created>1682089018236</created>
@@ -192,7 +193,14 @@
       <option name="project" value="LOCAL" />
       <updated>1682153376788</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="Added support for self_prompting and read_directory commands&#10;&#10;Started working on parser for command querys">
+      <created>1682170135439</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1682170135439</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -220,6 +228,7 @@
     <MESSAGE value="added workingdir and clean up a bit" />
     <MESSAGE value="Started on commands, selfprompt wip" />
     <MESSAGE value="commit" />
-    <option name="LAST_COMMIT_MESSAGE" value="commit" />
+    <MESSAGE value="Added support for self_prompting and read_directory commands&#10;&#10;Started working on parser for command querys" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added support for self_prompting and read_directory commands&#10;&#10;Started working on parser for command querys" />
   </component>
 </project>
