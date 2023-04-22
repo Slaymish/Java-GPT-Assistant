@@ -4,14 +4,17 @@ import com.theokanning.openai.completion.chat.*;
 import com.theokanning.openai.service.OpenAiService;
 import io.github.cdimascio.dotenv.Dotenv;
 import io.reactivex.Flowable;
+import io.reactivex.Single;
 
+import javax.sound.sampled.LineUnavailableException;
+import java.io.IOException;
 import java.util.*;
 
 public class Main {
     private static final ArrayList<ChatMessage> messages = new ArrayList<>();
     private static boolean running = true;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException, LineUnavailableException {
         Dotenv dotenv = Dotenv.load();
 
         // Get the value of an environment variable
@@ -20,10 +23,15 @@ public class Main {
         OpenAiService service = new OpenAiService(apiKey);
 
         // Add system messages
-        messages.add(new ChatMessage("system", "You are a snarky bot that is arogant about how much you know. You specialise in short responses and limit all responses to at most 2 paragraphs"));
+        messages.add(new ChatMessage("system", "You are a helpful assistant, specialising in short responses."));
+
+        // Use whisper api
+        Transcribe.transcribe();
+
 
         while(running){
             String userInput = getUser();
+            final String[] res = {""};
             if(userInput.equals("q")){
                 running = false;
             }
@@ -33,19 +41,35 @@ public class Main {
 
                 try {
                     // Create a chat completion stream
+                    System.out.println(request.getStop());
                     Flowable<ChatCompletionChunk> stream = service.streamChatCompletion(request);
-                    System.out.println("Bot: ");
                     // Subscribe to the stream
                     stream.subscribe(chunk -> {
                         // Get the latest message
                         ChatCompletionChoice result = chunk.getChoices().get(0);
                         String botResponse = String.valueOf(result.getMessage().getContent());
                         messages.add(new ChatMessage("assistant", botResponse));
-                        if(!botResponse.equals(null)) {
+                        if(botResponse.equals("null") && !res[0].equals("")){
+                            //tts
+                            try {
+                                TextToSpeech.outputTextToSpeak(res[0]);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        else if(!botResponse.equals("null")){
+                            res[0] = res[0] + " " + botResponse;
                             System.out.print(botResponse);
                         }
 
-                    }).isDisposed();
+                    });
+
+
+
+
+
+
+
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -57,6 +81,16 @@ public class Main {
 
 
     }
+
+    private static void executeResult(Single<List<ChatCompletionChunk>> toList) {
+        try {
+            List<ChatCompletionChunk> result = toList.blockingGet();
+            System.out.println("result: " + result.size());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
     private static String getUser(List<ChatMessage> msgs) {
         return msgs.stream()
