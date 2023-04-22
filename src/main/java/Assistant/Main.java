@@ -6,6 +6,7 @@ import Util.Transcribe;
 import com.theokanning.openai.completion.CompletionRequest;
 import com.theokanning.openai.completion.chat.*;
 import com.theokanning.openai.service.OpenAiService;
+import commands.GoogleSearch;
 import io.github.cdimascio.dotenv.Dotenv;
 import io.reactivex.Flowable;
 import io.reactivex.Single;
@@ -20,6 +21,7 @@ import java.util.regex.Pattern;
 public class Main {
     private static final ArrayList<ChatMessage> messages = new ArrayList<>();
     private static boolean running = true;
+    private static boolean verbose = true;
 
 
 
@@ -39,7 +41,10 @@ public class Main {
     private static final Pattern SELF_PROMPT = Pattern.compile("self_prompt");
     private static final Pattern READ_FILE = Pattern.compile("read_file");
     private static final Pattern READ_DIRECTORY = Pattern.compile("read_directory");
-    private static final Pattern GOOGLE = Pattern.compile("google");
+    private static final Pattern GOOGLE_SEARCH = Pattern.compile("google_search");
+
+    private  static final Pattern SEARCH_WEBSITE = Pattern.compile("search_website");
+    private static final Pattern CURLY_BRACKETS = Pattern.compile("\\{\\\"(.*?)\\\"}");
 
 
     public static void init(){
@@ -113,39 +118,43 @@ public class Main {
                 messages.add(new ChatMessage("user", prompt));
 
                 try {
-                    // Create a chat completion stream
-                    Flowable<ChatCompletionChunk> stream = service.streamChatCompletion(request);
-                    // Subscribe to the stream
-                    stream.subscribe(chunk -> {
-                        // Get the latest message
-                        ChatCompletionChoice result = chunk.getChoices().get(0);
-                        String botResponse = String.valueOf(result.getMessage().getContent());
-                        if(botResponse.equals("null") && !res[0].equals("")){ // finished
-                            try {
-                                TextToSpeech.outputTextToSpeak(res[0]); // TTS
-                                messages.add(new ChatMessage("assistant", res[0]));
-                                System.out.println();
-
-                                // Check for commands
-                                if(!checkForCommands(res[0],service)){
-                                    runBot(service, null,model);
-                                }
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                        else if(!botResponse.equals("null")){ // chunks still coming in
-                            res[0] = res[0] + botResponse;
-                            System.out.print(botResponse);
-                        }
-                    });
+                    extractedStreamChat(service, model, res, request,false);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
         }
 
-    private static boolean checkForCommands(String re, OpenAiService service) throws LineUnavailableException, IOException, ParseException {
+    private static void extractedStreamChat(OpenAiService service, String model, String[] res, ChatCompletionRequest request, boolean selfMode) {
+        // Create a chat completion stream
+        Flowable<ChatCompletionChunk> stream = service.streamChatCompletion(request);
+        // Subscribe to the stream
+        stream.subscribe(chunk -> {
+            // Get the latest message
+            ChatCompletionChoice result = chunk.getChoices().get(0);
+            String botResponse = String.valueOf(result.getMessage().getContent());
+            if(botResponse.equals("null") && !res[0].equals("")){ // finished
+                try {
+                    if(ttsEnabled){TextToSpeech.outputTextToSpeak(res[0]);} // TTS
+                    messages.add(new ChatMessage("assistant", res[0]));
+                    System.out.println();
+
+                    // Check for commands
+                    if(!checkForCommands(res[0], service) || selfMode){
+                        runBot(service, null, model);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            else if(!botResponse.equals("null")){ // chunks still coming in
+                res[0] = res[0] + botResponse;
+                System.out.print(botResponse);
+            }
+        });
+    }
+
+    private static boolean checkForCommands(String re, OpenAiService service) throws Exception {
         if(WRITE_TO_FILE.matcher(re).find()){
             System.out.println("write to file");
         }
@@ -159,38 +168,57 @@ public class Main {
             System.out.println("read directory");
             messages.add(new ChatMessage("assistant", "Here are the files in your directory: " + Arrays.toString(new File(workingDirectory).list())));
         }
-        else if(GOOGLE.matcher(re).find()){
-            System.out.println("google");
-        }
-        if(SELF_PROMPT.matcher(re).find()){
-            System.out.println("self prompt");
-            Scanner scanner = new Scanner(re);
-            scanner.useDelimiter("");
-            while(scanner.hasNext()){
-                String next = scanner.next();
-                if(next.equals(SELF_PROMPT)){
-                    requires(scanner, "{");
-                    String prompt = "";
-                    while(!scanner.hasNext("}")){
-                        prompt += scanner.next();
-                    }
-                    System.out.println("Self prompt: " + prompt);
-                    requires(scanner, "}");
-                    runBot(service, prompt, model);
-                    return true;
-                }
+        if(GOOGLE_SEARCH.matcher(re).find()){
+            // Get the search query
+            // ------------------  WIP  ------------------------
+            String query = re.substring(re.indexOf("google_search") + ("google_search").length());
 
-            }
+            System.out.println("searching for: " + query);
+
+            Scanner scanner = new Scanner(query);
+            scanner.useDelimiter(CURLY_BRACKETS);
+            String searchQuery = scanner.next();
+
+            System.out.println("searching for: " + searchQuery);
+
+            String searchResults = GoogleSearch.search(searchQuery);
+
+            messages.add(new ChatMessage("assistant", "Here are the results for " + searchQuery + ": " + searchResults));
+        }
+        if(SEARCH_WEBSITE.matcher(re).find()){
+            System.out.println("search website");
+        }
+        else
+        if(SELF_PROMPT.matcher(re).find()){
+            standAlonePrompt(service, re, model);
         }
         return false;
     }
 
-    public static boolean requires(Scanner sc, String s) throws ParseException {
-        if (sc.hasNext(s)) {
-            sc.next(s);
-            return true;
+    private static void standAlonePrompt(OpenAiService service, String prompt, String model) {
+        // Construct prompt
+        String initalPrompt = "The following is prompted by you to query the information in the previous messages. Try to answer the query as concisely and correctly as possible:\n\n";
+        prompt = initalPrompt + prompt;
+
+        // Create a chat completion request
+        ChatCompletionRequest request = createChatCompletionRequest(messages, prompt, model);
+        messages.add(new ChatMessage("user", prompt));
+
+        // Create a chat completion stream
+        extractedStreamChat(service, model, new String[]{""}, request,true);
+    }
+
+    public static boolean requires(Scanner sc, String s) throws Exception {
+        try{
+            if (sc.hasNext(s)) {
+                if(verbose){System.out.println("Found " + s);}
+                sc.next(s);
+                return true;
+            }
+        }catch(Exception e){
+            System.out.println("Error: " + e.getMessage());
         }
-        throw new ParseException("Expected " + s, 0);
+        throw new Exception("Parse Error, expected " + s);
     }
 
 

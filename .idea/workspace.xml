@@ -4,7 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="44098371-9094-4f21-98df-c2d9ac54a1f1" name="Changes" comment="Started on commands, selfprompt wip" />
+    <list default="true" id="44098371-9094-4f21-98df-c2d9ac54a1f1" name="Changes" comment="commit">
+      <change afterPath="$PROJECT_DIR$/src/main/java/commands/GoogleSearch.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/output.mp3" beforeDir="false" afterPath="$PROJECT_DIR$/output.mp3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Assistant/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Assistant/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/prompt.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/prompt.txt" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -92,6 +98,8 @@
       <workItem from="1682132705710" duration="5206000" />
       <workItem from="1682139111383" duration="527000" />
       <workItem from="1682139701569" duration="8023000" />
+      <workItem from="1682153362909" duration="52000" />
+      <workItem from="1682153459135" duration="5663000" />
     </task>
     <task id="LOCAL-00001" summary="AI chat bot - WIP">
       <created>1682089018236</created>
@@ -177,7 +185,14 @@
       <option name="project" value="LOCAL" />
       <updated>1682152544360</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="commit">
+      <created>1682153376788</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1682153376788</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -204,6 +219,7 @@
     <MESSAGE value="moved files" />
     <MESSAGE value="added workingdir and clean up a bit" />
     <MESSAGE value="Started on commands, selfprompt wip" />
-    <option name="LAST_COMMIT_MESSAGE" value="Started on commands, selfprompt wip" />
+    <MESSAGE value="commit" />
+    <option name="LAST_COMMIT_MESSAGE" value="commit" />
   </component>
 </project>
