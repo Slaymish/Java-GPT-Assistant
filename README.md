@@ -1,5 +1,5 @@
 # Java-GPT-Assistant
-A little gpt assitant java test, using gpt3/4, whisper, and elevenlabs api's
+A little gpt assistant java test, using gpt3/4, whisper, and elevenlabs api's
 
 - [X] GPT with chat history
 - [X] TTS with elevenlabs
