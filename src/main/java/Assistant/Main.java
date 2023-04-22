@@ -19,14 +19,34 @@ public class Main {
     private static final ArrayList<ChatMessage> messages = new ArrayList<>();
     private static boolean running = true;
 
-    private static String model = "";
 
-    public static void main(String[] args) throws IOException, LineUnavailableException {
+
+    /*  Envirorment vars:   */
+    private static String model = "";
+    private static String apiKey = "";
+    private static String XI_API_KEY = "";
+    private static String voiceID = "";
+    private static String workingDirectory = "";
+
+    public static void init(){
         Dotenv dotenv = Dotenv.load();
 
         // Get the value of an environment variable
-        String apiKey = dotenv.get("OPEN_AI_API_KEY");
+        apiKey = dotenv.get("OPEN_AI_API_KEY");
         model = dotenv.get("OPEN_AI_MODEL");
+        XI_API_KEY = dotenv.get("ELEVENLABS_API_KEY");
+        voiceID = dotenv.get("ELEVENLABS_VOICE_ID");
+        workingDirectory = dotenv.get("WORKING_DIRECTORY");
+
+        if(apiKey == null || model == null || XI_API_KEY == null || voiceID == null || workingDirectory == null){
+            throw new RuntimeException("Please set your environment variables");
+        }
+
+        System.out.println("Environment variables loaded");
+    }
+
+    public static void main(String[] args) throws IOException, LineUnavailableException {
+        init();
 
         OpenAiService service = new OpenAiService(apiKey);
 
@@ -158,6 +178,10 @@ public class Main {
         System.out.print("Enter your message: (q to quit)  ");
         String userInput = scanner.nextLine();
         return userInput;
+    }
+
+    public static String getWorkingDirectory() {
+        return workingDirectory;
     }
 
 
