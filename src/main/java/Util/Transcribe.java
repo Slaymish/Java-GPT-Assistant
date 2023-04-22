@@ -1,4 +1,4 @@
-package org.example;
+package Util;
 
 import com.theokanning.openai.service.OpenAiService;
 import io.github.cdimascio.dotenv.Dotenv;

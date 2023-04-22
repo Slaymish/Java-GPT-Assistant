@@ -1,4 +1,8 @@
-package org.example;
+package Assistant;
+
+import Util.Beads;
+import Util.TextToSpeech;
+import Util.Transcribe;
 import com.theokanning.openai.completion.CompletionRequest;
 import com.theokanning.openai.completion.chat.*;
 import com.theokanning.openai.service.OpenAiService;

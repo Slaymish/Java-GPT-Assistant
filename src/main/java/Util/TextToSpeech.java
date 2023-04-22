@@ -1,4 +1,4 @@
-package org.example;
+package Util;
 
 import io.github.cdimascio.dotenv.Dotenv;
 
@@ -10,7 +10,7 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
-class TextToSpeech {
+public class TextToSpeech {
     private static final int CHUNK_SIZE = 1024;
     private static final String URL_STRING = "https://api.elevenlabs.io/v1/text-to-speech/21m00Tcm4TlvDq8ikWAM";
     private static String XI_API_KEY = "";

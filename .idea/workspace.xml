@@ -4,10 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="44098371-9094-4f21-98df-c2d9ac54a1f1" name="Changes" comment="added env template file">
-      <change beforePath="$PROJECT_DIR$/.env.template" beforeDir="false" afterPath="$PROJECT_DIR$/.env.template" afterDir="false" />
+    <list default="true" id="44098371-9094-4f21-98df-c2d9ac54a1f1" name="Changes" comment="added model to env">
+      <change afterPath="$PROJECT_DIR$/src/main/java/commands/FileCommands.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/commands/Search.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/output.mp3" beforeDir="false" afterPath="$PROJECT_DIR$/output.mp3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Beads.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Util/Beads.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Assistant/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/TextToSpeech.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Util/TextToSpeech.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Transcribe.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Util/Transcribe.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,12 +65,13 @@
       <recent name="$PROJECT_DIR$" />
     </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="" />
       <recent name="org.example" />
     </key>
   </component>
   <component name="RunManager">
     <configuration name="Assistant" type="Application" factoryName="Application">
-      <option name="MAIN_CLASS_NAME" value="org.example.Main" />
+      <option name="MAIN_CLASS_NAME" value="Assistant.Main" />
       <module name="Assistant" />
       <extension name="net.ashald.envfile">
         <option name="IS_ENABLED" value="false" />
@@ -94,7 +100,7 @@
       <workItem from="1682085115600" duration="9636000" />
       <workItem from="1682132705710" duration="5206000" />
       <workItem from="1682139111383" duration="527000" />
-      <workItem from="1682139701569" duration="281000" />
+      <workItem from="1682139701569" duration="614000" />
     </task>
     <task id="LOCAL-00001" summary="AI chat bot - WIP">
       <created>1682089018236</created>
@@ -152,7 +158,14 @@
       <option name="project" value="LOCAL" />
       <updated>1682139515527</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="added model to env">
+      <created>1682140002297</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1682140002297</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -175,6 +188,7 @@
     <MESSAGE value="Delete .env" />
     <MESSAGE value="update gitignore" />
     <MESSAGE value="added env template file" />
-    <option name="LAST_COMMIT_MESSAGE" value="added env template file" />
+    <MESSAGE value="added model to env" />
+    <option name="LAST_COMMIT_MESSAGE" value="added model to env" />
   </component>
 </project>
