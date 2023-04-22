@@ -15,15 +15,18 @@ public class Main {
     private static final ArrayList<ChatMessage> messages = new ArrayList<>();
     private static boolean running = true;
 
+    private static String model = "";
+
     public static void main(String[] args) throws IOException, LineUnavailableException {
         Dotenv dotenv = Dotenv.load();
 
         // Get the value of an environment variable
         String apiKey = dotenv.get("OPEN_AI_API_KEY");
+        model = dotenv.get("OPEN_AI_MODEL");
 
         OpenAiService service = new OpenAiService(apiKey);
 
-        resetMessages("You are a helpful assistant, specialising in short responses. Act as a japaneese anime girl.");
+        resetMessages("You are a helpful assistant, specialising in short responses.");
 
         // Ask for text or voice
         System.out.println("Would you like to use text or voice? (t/v)");
@@ -42,7 +45,7 @@ public class Main {
             // Get user text
             prompt = getUser();
         }
-        runBot(service, prompt);
+        runBot(service, prompt,model);
     }
 
     /**
@@ -52,7 +55,7 @@ public class Main {
      * @throws LineUnavailableException
      * @throws IOException
      */
-    private static void runBot(OpenAiService service, String prompt) throws LineUnavailableException, IOException {
+    private static void runBot(OpenAiService service, String prompt, String model) throws LineUnavailableException, IOException {
             if(prompt == null){prompt = getUser();}
             final String[] res = {""};
             if(prompt.equals("q")){
@@ -62,7 +65,7 @@ public class Main {
                 System.exit(0);
             }
             else{
-                ChatCompletionRequest request = createChatCompletionRequest(messages, prompt, "gpt-3.5-turbo");
+                ChatCompletionRequest request = createChatCompletionRequest(messages, prompt, model);
                 messages.add(new ChatMessage("user", prompt));
 
                 try {
@@ -79,7 +82,7 @@ public class Main {
                                 messages.add(new ChatMessage("assistant", res[0]));
                                 System.out.println();
                                 // Rerun the bot
-                                runBot(service, null);
+                                runBot(service, null,model);
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
