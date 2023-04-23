@@ -15,7 +15,7 @@ Commands really only work with gpt-4, as intital prompt is too long for other mo
 ## Installation
 1. Clone the repository
 2. Navigate to the project directory
-3. Build the project with Maven: mvn package
+3. Build the project with Maven
 4. Run the project: java -jar target/Java-GPT-Assistant-1.0-SNAPSHOT.jar
 
 
