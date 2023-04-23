@@ -42,7 +42,7 @@ ELEVENLABS_API_KEY: API key for the ElevenLabs TTS API
 ELEVENLABS_VOICE_ID: voice ID for the ElevenLabs TTS API
 WORKING_DIRECTORY: path to the working directory for the assistant
 ```
-To set these environment variables, remove .template from .env.template and your keys
+To set these environment variables, remove .template from .env.template and add your keys
 
 ## Dependencies
 This project uses the following dependencies:
