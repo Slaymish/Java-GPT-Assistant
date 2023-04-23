@@ -3,6 +3,7 @@ package Assistant;
 import Util.Beads;
 import Util.TextToSpeech;
 import Util.Transcribe;
+import com.theokanning.openai.OpenAiResponse;
 import com.theokanning.openai.completion.CompletionRequest;
 import com.theokanning.openai.completion.chat.*;
 import com.theokanning.openai.service.OpenAiService;
@@ -59,13 +60,18 @@ public class Main {
         workingDirectory = dotenv.get("WORKING_DIRECTORY");
         ttsEnabled = Boolean.parseBoolean(dotenv.get("TTS_ENABLED"));
 
+        if (ttsEnabled) {
+            System.out.println("TTS Enabled");
+            if(XI_API_KEY == null || voiceID == null){
+                throw new RuntimeException("Please set tts environment variables or disable tts");
+            }
+        } else {System.out.println("TTS Disabled");}
 
-        if(apiKey == null || model == null || XI_API_KEY == null || voiceID == null || workingDirectory == null){
+        if(apiKey == null || model == null || workingDirectory == null){
             throw new RuntimeException("Please set your environment variables");
         }
 
         System.out.println("Environment variables loaded");
-
     }
 
     public static void main(String[] args) throws IOException, LineUnavailableException {
@@ -85,11 +91,17 @@ public class Main {
         String prompt = "";
 
         if(input.equals("v")){
+            // Still in testing
+            System.out.println("\033[0;31m" + "Voice input not currently working (use text)" + "\033[0m");
+            return;
+
             // Get user voice
+            /*
             File userAudio = Beads.main();
 
             // Use whisper api
             prompt = Transcribe.transcribe(userAudio);
+            */
         }
         else if(input.equals("t")){
             // Get user text
@@ -111,7 +123,7 @@ public class Main {
             if(prompt.equals("q")){
                 running = false;
                 System.out.println("exiting: " + messages.size() + " messages");
-                messages.forEach(System.out::println);
+                printMessages(messages);
                 System.exit(0);
             }
             else{
@@ -126,6 +138,18 @@ public class Main {
             }
         }
 
+    private static void printMessages(ArrayList<ChatMessage> messages) {
+        for(ChatMessage message : messages){
+            if(message.getRole().equals("user")){
+                System.out.println("\033[0;34m" + message.getRole() + ": " + message.getContent() + "\033[0m");
+            }
+            else{
+                System.out.println("\033[0;32m" + message.getRole() + ": " + message.getContent() + "\033[0m");
+            }
+        }
+
+    }
+
     private static void extractedStreamChat(OpenAiService service, String model, String[] res, ChatCompletionRequest request, boolean selfMode) {
         // Create a chat completion stream
         Flowable<ChatCompletionChunk> stream = service.streamChatCompletion(request);
@@ -138,8 +162,7 @@ public class Main {
                 try {
                     if(ttsEnabled){TextToSpeech.outputTextToSpeak(res[0]);} // TTS
                     messages.add(new ChatMessage("assistant", res[0]));
-                    System.out.println();
-
+                    System.out.println("\n");
                     // Check for commands
                     if(!checkForCommands(res[0], service) || selfMode){
                         runBot(service, null, model);
@@ -163,7 +186,7 @@ public class Main {
             System.out.println("download file");
         }
         if(READ_FILE.matcher(re).find()){
-            System.out.println("read file");
+            parseReadFile(re);
         }
         if(READ_DIRECTORY.matcher(re).find()){
             System.out.println("read directory");
@@ -195,7 +218,7 @@ public class Main {
 
     private static void parseWriteFile(String sc) {
         // Get the search query
-        String query = sc.substring(sc.indexOf("write_to_file") + ("write_to_file").length() + 1);
+        String query = sc.substring(sc.indexOf("write_to_file") + ("write_to_file").length());
         query = query.substring(0, query.indexOf("self_prompt") - 2);
 
         // Get the file name

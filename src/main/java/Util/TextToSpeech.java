@@ -2,9 +2,8 @@ package Util;
 
 import io.github.cdimascio.dotenv.Dotenv;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
+import javax.sound.sampled.*;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -12,60 +11,69 @@ import java.nio.charset.StandardCharsets;
 
 public class TextToSpeech {
     private static final int CHUNK_SIZE = 1024;
-    private static final String URL_STRING = "https://api.elevenlabs.io/v1/text-to-speech/21m00Tcm4TlvDq8ikWAM";
+    private static final String URL_STRING = "https://api.elevenlabs.io/v1/text-to-speech/";
     private static String XI_API_KEY = "";
 
 
-    public static void outputTextToSpeak(String args) throws IOException {
+    public static void outputTextToSpeak(String fullResponse) throws IOException, LineUnavailableException, UnsupportedAudioFileException, InterruptedException {
         Dotenv dotenv = Dotenv.load();
         XI_API_KEY = dotenv.get("ELEVENLABS_API_KEY");
         String voiceID = dotenv.get("ELEVENLABS_VOICE_ID");
+        int stability = 0;
+        int similarityBoost = 0;
 
-        URL url = new URL(URL_STRING);
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        connection.setRequestMethod("POST");
-        connection.setRequestProperty("Accept", "audio/mpeg");
-        connection.setRequestProperty("Content-Type", "application/json");
-        connection.setRequestProperty("xi-api-key", XI_API_KEY);
-        connection.setDoOutput(true);
+        // Get the first line of the response
+        String text = fullResponse.split("\n")[0];
 
-        String text = args;
+        // Get substring
+        String toSpeak = text.substring(("Response:").length(), Math.min(text.length(), 1000));
+
 
         // santize the text
-        String encodedText = text.replaceAll("\n", ". ")
+        String encodedText = toSpeak.replaceAll("\n", ". ")
                 .replaceAll("\r", " ")
                 .replaceAll("\t", " ")
-                .replaceAll("\\\"","`");
+                .replaceAll("\\\"","'");
 
 
-        // Build the body
-        String body = String.format("{\"text\": \"%s\", \"voice_settings\": {\"stability\": 0, \"similarity_boost\": 0}}", encodedText);
+        URL url = new URL(URL_STRING + voiceID);
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestMethod("POST");
+        conn.setRequestProperty("accept", "audio/mpeg");
+        conn.setRequestProperty("xi-api-key", XI_API_KEY);
+        conn.setRequestProperty("Content-Type", "application/json");
+        conn.setDoOutput(true);
 
-        OutputStream os = connection.getOutputStream();
-        byte[] input = body.getBytes(StandardCharsets.UTF_8);
-        os.write(input, 0, input.length);
+        String jsonInputString = "{ \"text\": \"" + encodedText + "\", \"voice_settings\": { \"stability\": " + stability + ", \"similarity_boost\": " + similarityBoost + " } }";
 
-        int responseCode = connection.getResponseCode();
-        if (responseCode == HttpURLConnection.HTTP_OK) {
-            try (OutputStream outputStream = new FileOutputStream("output.mp3")) {
-                byte[] buffer = new byte[CHUNK_SIZE];
-                int bytesRead;
-                while ((bytesRead = connection.getInputStream().read(buffer)) != -1) {
-                    outputStream.write(buffer, 0, bytesRead);
-                }
-
-                // Speak the output
-                Runtime.getRuntime().exec("afplay output.mp3");
-            }
-        } else {
-            System.out.println("Error: " + responseCode);
-
-            // Display issue
-            System.out.println("Error: " + connection.getResponseMessage());
-
-            // Speak the error
-            System.out.println("text: " + text);
-            System.out.println("encodedText: " + encodedText);
+        try (OutputStream os = conn.getOutputStream()) {
+            byte[] input = jsonInputString.getBytes(StandardCharsets.UTF_8);
+            os.write(input, 0, input.length);
         }
+
+        // Get the response
+        byte[] buffer = new byte[CHUNK_SIZE];
+        int bytesRead;
+        try (InputStream is = conn.getInputStream()) {
+            try (FileOutputStream fos = new FileOutputStream("output.mp3")) {
+                while ((bytesRead = is.read(buffer)) != -1) {
+                    fos.write(buffer, 0, bytesRead);
+                }
+            }
+        }
+        catch (IOException e) {
+            System.out.println("");
+            System.out.println("\033[0;31m" + "Error with TTS: Check you have enough credits on your account"+ "\033[0m");
+
+            // Print to console in red
+            System.out.println("\033[0;31m" + "Error: " + e + "\033[0m");
+
+            // Print to console in blue
+            System.out.println("\033[0;34m" + "Failed to speak: " + encodedText + "\033[0m");
+        }
+
+        // Play the audio
+        AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("output.mp3"));
     }
+
 }

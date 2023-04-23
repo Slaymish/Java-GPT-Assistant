@@ -1,13 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="Assistant" />
+    </artifacts-to-build>
+  </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="44098371-9094-4f21-98df-c2d9ac54a1f1" name="Changes" comment="update">
-      <change beforePath="$PROJECT_DIR$/.env.template" beforeDir="false" afterPath="$PROJECT_DIR$/.env.template" afterDir="false" />
+    <list default="true" id="44098371-9094-4f21-98df-c2d9ac54a1f1" name="Changes" comment="read and write to dir working, error with getting double response">
+      <change afterPath="$PROJECT_DIR$/.idea/artifacts/Assistant.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assistant-new.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assistant.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/META-INF/MANIFEST.MF" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/WorkingDirectory/file_list.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/WorkingDirectory/un.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Assistant/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Assistant/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Util/TextToSpeech.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Util/TextToSpeech.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/prompt.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/prompt.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -50,7 +61,10 @@
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
     &quot;last_opened_file_path&quot;: &quot;/Users/hamishburke/Desktop/Other/Assistant/Assistant&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Artifacts&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.15287356&quot;
   }
 }</component>
   <component name="RecentsManager">
@@ -65,7 +79,7 @@
       <recent name="org.example" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Application.Assistant">
     <configuration name="Assistant" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="Assistant.Main" />
       <module name="Assistant" />
@@ -83,6 +97,15 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="Assistant.jar" type="JarApplication" temporary="true">
+      <option name="JAR_PATH" value="$PROJECT_DIR$/Assistant.jar" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JAR Application.Assistant.jar" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -99,7 +122,10 @@
       <workItem from="1682139701569" duration="8023000" />
       <workItem from="1682153362909" duration="52000" />
       <workItem from="1682153459135" duration="5775000" />
-      <workItem from="1682170560393" duration="8146000" />
+      <workItem from="1682170560393" duration="8965000" />
+      <workItem from="1682212380519" duration="10000" />
+      <workItem from="1682215748719" duration="1140000" />
+      <workItem from="1682221063416" duration="3948000" />
     </task>
     <task id="LOCAL-00001" summary="AI chat bot - WIP">
       <created>1682089018236</created>
@@ -206,7 +232,14 @@
       <option name="project" value="LOCAL" />
       <updated>1682207772049</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="read and write to dir working, error with getting double response">
+      <created>1682210093748</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1682210093748</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -236,6 +269,7 @@
     <MESSAGE value="commit" />
     <MESSAGE value="Added support for self_prompting and read_directory commands&#10;&#10;Started working on parser for command querys" />
     <MESSAGE value="update" />
-    <option name="LAST_COMMIT_MESSAGE" value="update" />
+    <MESSAGE value="read and write to dir working, error with getting double response" />
+    <option name="LAST_COMMIT_MESSAGE" value="read and write to dir working, error with getting double response" />
   </component>
 </project>

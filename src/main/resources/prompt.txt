@@ -35,9 +35,9 @@ user:
 "what did I do last week?"
 you:
 "
-Response: I have read the file last_week.txt
-Criticism: I should have checked if the file exists before reading it
-action: read_file{last_week.txt} self_prompt{"What did you do last week?"}
+Response: I'll check the files you have access to
+Criticism:
+action: read_directory{} self_prompt{"Do any of these files contain last week's events?"}
 "
 
 user:
