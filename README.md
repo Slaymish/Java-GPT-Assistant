@@ -35,19 +35,22 @@ To exit the assistant, type 'q'.
 
 ## Environment Variables
 This project requires several environment variables to be set in order to function properly:
-
+```
 OPEN_AI_API_KEY: API key for the OpenAI API
 OPEN_AI_MODEL: name of the OpenAI GPT model to use
 ELEVENLABS_API_KEY: API key for the ElevenLabs TTS API
 ELEVENLABS_VOICE_ID: voice ID for the ElevenLabs TTS API
 WORKING_DIRECTORY: path to the working directory for the assistant
-To set these environment variables, chcreate a .env file in the project directory and add the following lines:
+```
+To set these environment variables, remove .template from .env.template and your keys
 
 ## Dependencies
 This project uses the following dependencies:
+```
 Maven: for build management
 OpenAI API: for natural language processing
 ElevenLabs TTS API: for text-to-speech functionality
 RxJava: for reactive programming
 Dotenv: for loading environment variables from a .env file
 Beads: for audio processing
+```
