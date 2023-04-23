@@ -13,6 +13,7 @@ import io.reactivex.Single;
 
 import javax.sound.sampled.LineUnavailableException;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.*;
@@ -156,7 +157,7 @@ public class Main {
 
     private static boolean checkForCommands(String re, OpenAiService service) throws Exception {
         if(WRITE_TO_FILE.matcher(re).find()){
-            System.out.println("write to file");
+            parseWriteFile(re);
         }
         if(DOWNLOAD_FILE.matcher(re).find()){
             System.out.println("download file");
@@ -190,6 +191,59 @@ public class Main {
         String searchResults = GoogleSearch.search(query);
 
         messages.add(new ChatMessage("assistant", "Here are the results for " + query + ": " + searchResults));
+    }
+
+    private static void parseWriteFile(String sc) {
+        // Get the search query
+        String query = sc.substring(sc.indexOf("write_to_file") + ("write_to_file").length() + 1);
+        query = query.substring(0, query.indexOf("self_prompt") - 2);
+
+        // Get the file name
+        String fileName = query.substring(1,query.indexOf(","));
+        System.out.println("file name: " + fileName);
+
+        // Get the file contents
+        String fileContents = query.substring(query.indexOf(",") + 1);
+        System.out.println("file contents: " + fileContents);
+
+        // Write to file
+        try{
+            FileWriter myWriter = new FileWriter(workingDirectory + fileName);
+            myWriter.write(fileContents);
+            myWriter.close();
+            System.out.println("Successfully wrote to the file.");
+
+        }
+        catch(Exception e){
+            System.out.println("Error: " + e);
+        }
+    }
+
+    private static void parseReadFile(String sc) {
+        // Get the search query
+        String query = sc.substring(sc.indexOf("read_file") + ("read_file").length() + 1);
+        query = query.substring(0, query.indexOf("self_prompt") - 2);
+        System.out.println("reading file: " + query);
+
+        // Read file
+        try {
+            File myObj = new File(workingDirectory + query);
+            String data = "";
+            if(myObj.exists()) {
+                Scanner myReader = new Scanner(myObj);
+                while (myReader.hasNextLine()) {
+                    data = data + "\n" + myReader.nextLine();
+                }
+                myReader.close();
+                messages.add(new ChatMessage("assistant", "Here is the contents of the file: " + data));
+            }
+            else{
+                System.out.println("File does not exist.");
+                messages.add(new ChatMessage("assistant", "File does not exist."));
+            }
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }
     }
 
     private static void standAlonePrompt(OpenAiService service, String prompt, String model) {

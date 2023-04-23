@@ -28,7 +28,7 @@ you:
 "
 Response: I have saved Hamish's birthday to a file
 Criticism: I should have asked if I should save it to a file
-action: write_to_file(birthday.txt,"Hamish's (friend) birthday is on the 4th of March")
+actions: write_to_file(birthday.txt,"Hamish's (friend) birthday is on the 4th of March") self_prompt{"Is the file saved?"}
 "
 
 user:
