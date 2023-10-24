@@ -54,6 +54,3 @@ RxJava: for reactive programming
 Dotenv: for loading environment variables from a .env file
 Beads: for audio processing
 ```
-
-
-_This readme is written by gpt3.5_
