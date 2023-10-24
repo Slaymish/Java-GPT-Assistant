@@ -1,4 +1,4 @@
-# Java-GPT-Assistant
+# Java-GPT-UI.Assistant
 This is a Java-based project that uses the OpenAI API to create a chatbot assistant. The assistant can communicate via text or voice and can perform various tasks such as answering questions, performing a Google search, and interacting with the file system.
 
 - [X] GPT with chat history
@@ -6,7 +6,7 @@ This is a Java-based project that uses the OpenAI API to create a chatbot assist
 - [ ] Audio input with whisper api
 - [ ] Commands for AI to execute
 
-*run src/main/java/Assistant/Main.java for CLI chats*
+*run src/main/java/UI.Assistant/UI.Main.java for CLI chats*
 
 Commands really only work with gpt-4, as intital prompt is too long for other models to use properly
 
@@ -16,13 +16,13 @@ Commands really only work with gpt-4, as intital prompt is too long for other mo
 1. Clone the repository
 2. Navigate to the project directory
 3. Build the project with Maven
-4. Run the project: java -jar target/Java-GPT-Assistant-1.0-SNAPSHOT.jar
+4. Run the project: java -jar target/Java-GPT-UI.Assistant-1.0-SNAPSHOT.jar
 
 
 ## Usage
 The assistant can communicate via text or voice. When prompted, type 't' to communicate via text or 'v' to communicate via voice.
 
-Once the assistant is running, you can ask it questions or give it commands. The following commands are supported:
+Once the assistant is running, you can ask it questions or give it UI.Assistant.commands. The following UI.Assistant.commands are supported:
 - [X] write_to_file: write the assistant's response to a file
 - [ ] download_file: download a file from a URL
 - [X] self_prompt: generate a prompt from the assistant's previous responses
