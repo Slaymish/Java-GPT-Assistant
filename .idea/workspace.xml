@@ -10,15 +10,33 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="44098371-9094-4f21-98df-c2d9ac54a1f1" name="Changes" comment="read and write to dir working, error with getting double response">
-      <change afterPath="$PROJECT_DIR$/.idea/artifacts/Assistant.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assistant-new.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assistant.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/META-INF/MANIFEST.MF" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/WorkingDirectory/file_list.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/WorkingDirectory/un.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/checkstyle-idea.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Functions/Command.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Functions/CommandFactory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Functions/CommandNotFound.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Functions/Search.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Functions/TerminalCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/UI/Assistant.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/UI/Main.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/UI/UI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.env.template" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/artifacts/Assistant.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Assistant/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Assistant/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Util/TextToSpeech.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Util/TextToSpeech.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/META-INF/MANIFEST.MF" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WorkingDirectory/eetings.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/WorkingDirectory/file_list.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/WorkingDirectory/text.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/WorkingDirectory/un.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/output.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Assistant/Main.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Util/Beads.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Util/TextToSpeech.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Util/Transcribe.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/commands/FileCommands.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/commands/GoogleSearch.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/commands/Search.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/prompt.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/prompt.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -40,6 +58,11 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="MarkdownSettingsMigration">
@@ -81,7 +104,7 @@
   </component>
   <component name="RunManager" selected="Application.Assistant">
     <configuration name="Assistant" type="Application" factoryName="Application">
-      <option name="MAIN_CLASS_NAME" value="Assistant.Main" />
+      <option name="MAIN_CLASS_NAME" value="UI.Main" />
       <module name="Assistant" />
       <extension name="net.ashald.envfile">
         <option name="IS_ENABLED" value="false" />
@@ -101,6 +124,10 @@
       <option name="JAR_PATH" value="$PROJECT_DIR$/Assistant.jar" />
       <method v="2" />
     </configuration>
+    <list>
+      <item itemvalue="Application.Assistant" />
+      <item itemvalue="JAR Application.Assistant.jar" />
+    </list>
     <recent_temporary>
       <list>
         <item itemvalue="JAR Application.Assistant.jar" />
@@ -126,6 +153,8 @@
       <workItem from="1682212380519" duration="10000" />
       <workItem from="1682215748719" duration="1140000" />
       <workItem from="1682221063416" duration="3948000" />
+      <workItem from="1698137852276" duration="6068000" />
+      <workItem from="1698157382718" duration="5770000" />
     </task>
     <task id="LOCAL-00001" summary="AI chat bot - WIP">
       <created>1682089018236</created>

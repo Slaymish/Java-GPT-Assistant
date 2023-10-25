@@ -1,4 +1,0 @@
-Manifest-Version: 1.0
-Main-Class: Assistant.Main
-Class-Path: /Users/hamishburke/Desktop/Other/Assistant/Assistant/target/classes
-
