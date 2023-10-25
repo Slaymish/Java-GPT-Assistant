@@ -14,6 +14,7 @@ public class CommandNotFound implements Command {
 
     @Override
     public String getResult() {
-        return "Command not found: " + command;
+        return "Command not found: " + command + "\n" +
+                "Query: " + query + "\n" +  "Type 'help' to see available commands";
     }
 }

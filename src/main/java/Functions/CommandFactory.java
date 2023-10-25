@@ -9,9 +9,11 @@ import java.util.Optional;
 public class CommandFactory {
 
     // List of all commands
-    private static List<Class> commands = List.of(
+    static List<Class<? extends Command>> commands = List.of(
             TerminalCommand.class,
-            Search.class
+            SearchSites.class,
+            RelatedSearches.class,
+            Help.class
     );
 
     /**
@@ -22,10 +24,10 @@ public class CommandFactory {
      * @return
      */
     public static Optional<Command> getCommand(String function) {
-        for (Class command : commands) {
+        for (Class<? extends Command> command : commands) {
             if (command.getSimpleName().equalsIgnoreCase(function)) {
                 try {
-                    return Optional.of((Command) command.getConstructor().newInstance());
+                    return Optional.of(command.getConstructor().newInstance());
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
