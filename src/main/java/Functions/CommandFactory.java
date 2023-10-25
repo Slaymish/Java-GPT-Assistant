@@ -19,14 +19,13 @@ public class CommandFactory {
      * If the command is not found, return an empty optional.
      *
      * @param function name of the command
-     * @param query query to be executed
      * @return
      */
-    public static Optional<Command> getCommand(String function, String query) {
+    public static Optional<Command> getCommand(String function) {
         for (Class command : commands) {
             if (command.getSimpleName().equalsIgnoreCase(function)) {
                 try {
-                    return Optional.of((Command) command.getConstructor(String.class).newInstance(query));
+                    return Optional.of((Command) command.getConstructor().newInstance());
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }

@@ -10,8 +10,12 @@ public class UI {
     private JPanel textPanel;
     private JPanel inputPanel;
 
-    public void setAssistant(Assistant assistant) {
+    private final int WIDTH = 300;
+    private final int HEIGHT = 300;
+
+    public UI setAssistant(Assistant assistant) {
         this.assistant = assistant;
+        return this;
     }
 
     /**
@@ -39,6 +43,7 @@ public class UI {
 
     /**
      * Start the assistant.
+     * This method will start the GUI.
      */
     public void startGUI() {
         JFrame frame = getFrame();
@@ -48,6 +53,12 @@ public class UI {
         frame.setVisible(true);
     }
 
+    /**
+     * Get the input panel.
+     * This panel contains a text field where the user can type commands.
+     * Lazy initialization.
+     * @return the input panel
+     */
     public JPanel getInputPanel(){
         if(inputPanel==null) {
             inputPanel = new JPanel();
@@ -61,16 +72,11 @@ public class UI {
 
                 // Clear the input and text panel
                 input.setText("");
-                getTextPanel().removeAll();
-                getTextPanel().revalidate();
+                TextArea textArea = (TextArea) getTextPanel().getComponent(1);
+                textArea.setText("");
 
                 // Add the result to the text panel
-                JTextArea text = new JTextArea(result);
-                text.setEditable(false);
-                text.setLineWrap(true);
-                text.setWrapStyleWord(true);
-                getTextPanel().add(text);
-                // TODO: Make reply appear correctly
+                textArea.append(result);
             });
             inputPanel.add(input);
         }
@@ -78,19 +84,35 @@ public class UI {
         return inputPanel;
     }
 
+    /**
+     * Get the text panel.
+     * This panel contains a text area where the assistant will print the results.
+     * Lazy initialization.
+     * @return the text panel
+     */
     public JPanel getTextPanel(){
         if(textPanel==null){
             textPanel = new JPanel();
             textPanel.add(new JLabel("Welcome to the assistant!"));
+            TextArea textArea = new TextArea();
+            textArea.setPreferredSize(new Dimension(WIDTH-10, HEIGHT-30));
+            textArea.setEditable(false);
+            textPanel.add(textArea);
         }
         return textPanel;
     }
 
+    /**
+     * Get the JFrame.
+     * Lazy initialization.
+     * @return the frame
+     */
     public JFrame getFrame(){
         if (frame == null) {
             frame = new JFrame("Assistant");
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.setSize(300, 300);
+            frame.setSize(WIDTH, HEIGHT);
+            frame.setResizable(false);
             frame.setLocationRelativeTo(null);
         }
         return frame;
