@@ -4,7 +4,7 @@ public class Main {
 
     /**
      * Main function
-     * @param args
+     * @param args debug
      */
     public static void main(String[] args) {
         // See if the user wants to run the program in debug mode
@@ -18,6 +18,6 @@ public class Main {
         // Run the assistant
         Assistant assistant = new Assistant();
         UI ui = new UI().setAssistant(assistant);
-        ui.run(debug);
+        ui.run(!debug);
     }
 }
