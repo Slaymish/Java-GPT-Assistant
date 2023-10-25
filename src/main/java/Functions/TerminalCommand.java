@@ -36,5 +36,4 @@ public class TerminalCommand implements Command {
     public String getResult() {
         return String.join("\n", results);
     }
-
 }
